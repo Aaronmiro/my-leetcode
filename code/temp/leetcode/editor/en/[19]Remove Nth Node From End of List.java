@@ -54,28 +54,44 @@ import JZ.tools.ListNode;
  */
 class RNNFESolution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        int total = this.findTotal(head, 0);
-        int idx = total - n;
-        if (idx==0) {
-            if (head.next != null) head = head.next;
-            else head = null;
+//        int total = this.findTotal(head, 0);
+//        int idx = total - n;
+//        if (idx==0) {
+//            if (head.next != null) head = head.next;
+//            else head = null;
+//        }
+//        else removeOne(head,0,idx);
+//        return head;
+
+        if (n == 1 && head.next == null) return null;
+        ListNode dummy = new ListNode(-1, head);
+        ListNode fastNode = dummy;
+        ListNode slowNode = dummy;
+        int num = 0;
+        while (num < n) {
+            fastNode = fastNode.next;
+            num++;
         }
-        else removeOne(head,0,idx);
-        return head;
+        while (fastNode.next != null) {
+            fastNode = fastNode.next;
+            slowNode = slowNode.next;
+        }
+        slowNode.next = slowNode.next.next;
+        return dummy.next;
     }
 
-    private int findTotal(ListNode node, int total) {
-        if (node == null) return total;
-        return this.findTotal(node.next, ++total);
-    }
-
-    private void removeOne(ListNode node, int i, int idx) {
-        if (i == (idx - 1)) {
-            ListNode tmp = node.next.next;
-            node.next.next = null;
-            node.next = tmp;
-        }else removeOne(node.next,++i,idx);
-    }
+//    private int findTotal(ListNode node, int total) {
+//        if (node == null) return total;
+//        return this.findTotal(node.next, ++total);
+//    }
+//
+//    private void removeOne(ListNode node, int i, int idx) {
+//        if (i == (idx - 1)) {
+//            ListNode tmp = node.next.next;
+//            node.next.next = null;
+//            node.next = tmp;
+//        }else removeOne(node.next,++i,idx);
+//    }
 
 
     public static void main(String[] args) {
@@ -83,9 +99,8 @@ class RNNFESolution {
 //        ListNode listNode3 = new ListNode(3, listNode4);
         ListNode listNode2 = new ListNode(2);
         ListNode listNode1 = new ListNode(1, listNode2);
+//        ListNode listNode1 = new ListNode(1);
 
-
-//        ListNode listNode = new ListNode(1, null);
         RNNFESolution rnnfeSolution = new RNNFESolution();
         rnnfeSolution.removeNthFromEnd(listNode1, 2);
     }
