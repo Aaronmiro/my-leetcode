@@ -2,55 +2,35 @@ package practice;
 
 import java.util.*;
 
-
 /**
  * @author Aaron
  * @date 10/9/21 3:58 PM
  */
-class mySort {
-    public static void scrambleNums(ArrayList<Integer> remainNums,
-                                    ArrayList<Integer> scramNums) {
-        ArrayList<Integer> tmpRemainNums;
-        int tmpRemovedNum;
-        int i;
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
+        int color = image[sr][sc];
+        if (color != newColor) dfs(image, sr, sc, color, newColor);
+        return image;
+    }
 
-        if (remainNums.size() == 0) {
-            System.out.print(scramNums.get(0));
-            System.out.print(scramNums.get(1));
-            System.out.println(scramNums.get(2));
-        }
-        else {
-            for (i = remainNums.size() - 1; i >= 0; --i) { // New: This line changed
-                tmpRemainNums = new ArrayList<Integer>(remainNums);
-                tmpRemovedNum = tmpRemainNums.remove(i);
-                scramNums.add(tmpRemovedNum);
-                scrambleNums(tmpRemainNums, scramNums);
-                scramNums.remove(scramNums.size() - 1);
-            }
+    public void dfs(int[][] image, int r, int c, int color, int newColor) {
+        if (image[r][c] == color) {
+            image[r][c] = newColor;
+            if (r >= 1) dfs(image, r - 1, c, color, newColor);
+            if (c >= 1) dfs(image, r, c - 1, color, newColor);
+            if (r + 1 < image.length) dfs(image, r + 1, c, color, newColor);
+            if (c + 1 < image[0].length) dfs(image, r, c + 1, color, newColor);
         }
     }
 
     public static void main(String[] args) {
-        Scanner scnr = new Scanner(System.in);
-        ArrayList<Integer> numsToScramble = new ArrayList<Integer>();
-        ArrayList<Integer> resultNums = new ArrayList<Integer>();
-
-        numsToScramble.add(4);
-        numsToScramble.add(9);
-        numsToScramble.add(2);
-
-
-
-        scrambleNums(numsToScramble, resultNums);
-
-        String s1 = "111";
-        String s2 = "222";
-        s1.equals(s2);
-
-
+        //image = [[1,1,1],[1,1,0],[1,0,1]], sr = 1, sc = 1, newColor = 2
+        int[][] image = {{1, 1, 1}, {1, 1, 0}, {1, 0, 1}};
+        int sr = 1;
+        int sc = 1;
+        int newColor = 2;
+        new Solution().floodFill(image, sr, sc, newColor);
     }
-
-
 }
 
 
